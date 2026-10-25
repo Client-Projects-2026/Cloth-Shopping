@@ -53,4 +53,4 @@ Generated asset provenance and the final prompt set are documented in [garment a
 
 ## Deploy
 
-For Vercel or another static host, use `npm run build` and publish `dist/`. No environment variables, secret keys or database are required. Use the host-provided address for the client demo. This project remains a public website template without an admin area, customer accounts or checkout.
+For Vercel, connect the GitHub `main` branch, use the Vite framework preset, build with `npm run build`, and set the output directory to `dist`. Leave the install command on automatic so Vercel installs from `package-lock.json`. Commit the source and lockfile; `.gitignore` keeps local `node_modules`, `dist` and screenshots out of Git. No environment variables, secret keys or database are required. Use the host-provided address for the client demo. This project remains a public website template without an admin area, customer accounts or checkout.
