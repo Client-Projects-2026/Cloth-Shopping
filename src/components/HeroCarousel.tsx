@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ArrowDown, ArrowDownRight, ArrowLeft, ArrowRight } from 'lucide-react';
 import { diwaliCollections, type DiwaliAudience } from '../diwali';
 
@@ -30,4 +30,3 @@ export default function HeroCarousel({ onAudience }: { onAudience: (value: Diwal
     <a className="scroll-cue" href="#rack"><span>SCROLL TO EXPLORE</span><ArrowDown size={15}/></a>
   </section>;
 }
-

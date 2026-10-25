@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Pause, Play, Sparkles } from 'lucide-react';
 import { collectionFor, diwaliAudiences, diwaliCollections, occasions, MAX_FAMILY_MEMBERS, type ClothingAudience, type DiwaliAudience, type DiwaliCollectionItem, type FamilyMember, type Occasion } from '../diwali';
 import GarmentOptions from './GarmentOptions';
@@ -101,4 +101,3 @@ export default function ClothingRack({ audience, onAudience }: Props) {
     {drawerOpen && selected && selection && <GarmentDrawer item={selected} size={selection.size} onSize={changeSize} onItem={changeStyle} onClose={() => setDrawerOpen(false)}/>}
   </section>;
 }
-

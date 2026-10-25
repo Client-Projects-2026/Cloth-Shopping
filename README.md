@@ -1,31 +1,56 @@
-# The Sunday Edit — local clothing shop concept
+# The Sunday Edit — clothing shop demo
 
-A responsive, public facing boutique website demo built with React, TypeScript and Vite. The supplied reference photos in `public/Refernce/` are used only as image-generation inspiration. The rack switches between generated five-look collections for Men, Women, Girls, and Boys; garments sway gently and open size/color controls with clearly labeled demo stock counts. The View drawer focuses on a single garment and includes a 3D-style visual turntable; actual side/back photography or a product model is still needed for a true 3D preview. The Custom / Family rack begins empty; adding a member fills a hanger with a role-specific sample outfit. The hero has Diwali preview, new-stock preview, and family-edit slides. All campaign text and stock counts are demo content; there is no real discount, inventory, contact detail, order, or payment flow.
+React, TypeScript and Vite. The shop name, products, stock counts and campaign copy are illustrative. No orders, payments or messages are sent.
 
-## Customize before using for a real shop
+## Try the demo
 
-Everything currently shown as **The Sunday Edit** and every garment name, description, color and category is illustrative demo content. The placeholder introduction and shop visit details must be replaced before publishing as the real shop website.
+- In **Take a peek at the rack**, use **Rack backdrop** above the rack to choose **Diwali**, **Wedding** or **Everyday**. This changes the setting without clearing the family edit.
+- Men, Women, Girls and Boys each have five individual garment images. Each complete transparent image moves from its own hanger; the brass rail stays still. Use **Pause motion** to stop the animation.
+- Select a piece to reveal size counts and color/style choices below the rack. Choosing a different color/style changes the garment too.
+- **View this piece** opens the right drawer. Select **Left / Front / Right**, click the garment, or use the arrow keys to change views. These are three separate AI-generated images, not a continuous 3D model or slices from a collection photo.
+- **Custom / Family** starts with five empty hangers. Add a person, then select their stock style and size. Changes appear on the rack; the edit survives category and hero navigation. Removing a person restores an empty hanger.
+- The hero has three manually controlled slides: Diwali, new-season stock inspiration and the family edit.
 
-1. Change the editable wordmark in `src/App.tsx` and the page title, description, and social sharing title in `index.html`.
-2. Replace the owner note in the About section with a short, accurate shop introduction.
-3. Replace the visit card with the real phone, WhatsApp number, email, street address, opening/visit details and social links. Add `tel:`, `mailto:` and `https://wa.me/` links only after verifying the supplied values. Keep this card as a placeholder until then.
-4. Update the structured demo products in `src/products.ts`. Names and descriptions are samples; size, price and availability should be added only when supplied and confirmed.
-5. Replace the illustrated garments in `src/Garment.tsx` with distinct, owned product images when available. Add descriptive alt text, and store image assets under `public/images/`.
-6. Update the Diwali sample content in `src/diwali.ts`. Replace the generated five-look assets (`public/diwali-men-five.png`, `public/diwali-women-five.png`, `public/diwali-girls-five.png`, and `public/diwali-boys-five.png`), sample size counts, and color options with the shop’s actual garments and options before launch. Add sale amounts/dates only after the owner confirms the offer. A true 3D turntable needs product-angle photos or a 3D garment model.
+On phones the rack scrolls horizontally. The drawer supports Escape, a keyboard focus loop and focus restoration. Motion respects the device's reduced-motion preference.
 
-## Run locally
+## Run and verify
 
-Requires Node.js and npm. Install dependencies with `npm install`, start the development server with `npm run dev`, and create a production build with `npm run build`.
+- Install: `npm install`
+- Local demo: `npm run dev`
+- Production build: `npm run build`
+- Browser checks, with a local server running: `node scripts/boutique-browser-check.mjs`
+- Set `DEMO_URL` to test another local URL. The checks use installed Google Chrome through Playwright and save screenshots in `artifacts/`.
 
-## Deploy to Vercel
+Playwright and Sharp are development tools only; neither is bundled into the storefront.
 
-Import this project into Vercel. It detects Vite automatically; use `npm run build` as the build command and `dist` as the output directory. No environment variables or secrets are required. A Vercel-provided project address is enough; configure a custom domain separately only if the owner chooses to.
+## Main files
 
-This phase contains only the public website. It has no admin area, database, account system, contact submission endpoint, checkout, or payment integration.
+| File | Purpose |
+| --- | --- |
+| `src/diwali.ts` | The 20 demo garments, image paths, sizes, stock counts and occasion labels |
+| `src/components/ClothingRack.tsx` | Categories, backdrop, independent hangers and selection state |
+| `src/components/FamilyBuilder.tsx` | Five-person family edit and stock-style selection |
+| `src/components/GarmentDrawer.tsx` | Complete single-garment angle gallery |
+| `src/components/GarmentOptions.tsx` | Shared size and color/style controls |
+| `src/components/Dialog.tsx` | Accessible modal behavior |
+| `src/components/HeroCarousel.tsx` | Three campaign slides |
+| `src/boutique.css` | Rack, backdrop, gallery and responsive styles |
+| `public/garments/` | 60 separate view images and 20 small rack thumbnails |
 
-## Owner assets and details still needed
+The old collection-sheet assets remain available as reference material; the interactive rack, hero and drawer do not use them.
 
-- Real shop name and preferred wordmark, customer audience, town/village and accurate shop introduction.
-- Distinct clothing photographs with permission to use them, plus accurate product names, descriptions, color, sizes and prices if the owner wants to publish those details.
-- Confirmed Diwali campaign terms, discount, dates and eligible products if a real sale is planned.
-- Verified phone and WhatsApp numbers, email, street address and social profile URLs. Confirm visit information before displaying it.
+## Replace the demo content
+
+1. Change the temporary wordmark in `src/App.tsx` and the title, description and sharing metadata in `index.html`.
+2. Replace the About placeholder with the real shop's introduction.
+3. Supply the real address, visit hours, phone, WhatsApp, email and social profiles before adding contact links.
+4. Replace the product records in `src/diwali.ts`, including names, descriptions, accurate size quantities and garment colors. Color/style swatches currently select other demo designs in the same category.
+5. For each product, replace `{id}-front.webp`, `{id}-left.webp`, `{id}-right.webp` and `{id}-rack.webp` with complete, owned photographs. Preserve transparent backgrounds for hanging pieces. Do not crop a collection sheet into product images.
+6. The everyday illustrated collection is configured separately in `src/products.ts` and `src/Garment.tsx`.
+7. Confirm any sale discount, terms, dates and eligible products before publishing an offer. This demo does not invent a discount or claim real availability.
+
+Generated asset provenance and the final prompt set are documented in [garment asset notes](public/garments/ASSET-NOTES.md). `scripts/prepare-garments.mjs <original-image-directory>` recreates the web formats from those original generated PNG files; it preserves the entire image and transparency.
+
+## Deploy
+
+For Vercel or another static host, use `npm run build` and publish `dist/`. No environment variables, secret keys or database are required. Use the host-provided address for the client demo. This project remains a public website template without an admin area, customer accounts or checkout.

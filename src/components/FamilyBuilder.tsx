@@ -1,4 +1,4 @@
-﻿import { Plus, X } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { collectionFor, diwaliCollections, MAX_FAMILY_MEMBERS, type ClothingAudience, type FamilyMember } from '../diwali';
 
 interface Props {
@@ -38,4 +38,3 @@ export default function FamilyBuilder({ members, onAdd, onUpdate, onRemove }: Pr
     <p className="sample-note" aria-live="polite">{members.length === MAX_FAMILY_MEMBERS ? 'Your five hangers are full. Remove a person to add another.' : 'Choose any of the five stock styles for each person. Your edit stays on this page.'}</p>
   </div>;
 }
-

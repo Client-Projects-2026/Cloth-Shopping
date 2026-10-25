@@ -1,4 +1,4 @@
-﻿import { collectionFor, type DiwaliCollectionItem } from '../diwali';
+import { collectionFor, type DiwaliCollectionItem } from '../diwali';
 
 interface Props {
   item: DiwaliCollectionItem;
@@ -26,4 +26,3 @@ export default function GarmentOptions({ item, size, onSize, onItem }: Props) {
     </fieldset>
   </div>;
 }
-

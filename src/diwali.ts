@@ -1,4 +1,4 @@
-﻿export const diwaliAudiences = ['Men', 'Women', 'Girls', 'Boys', 'Custom / Family'] as const;
+export const diwaliAudiences = ['Men', 'Women', 'Girls', 'Boys', 'Custom / Family'] as const;
 export type DiwaliAudience = typeof diwaliAudiences[number];
 export type ClothingAudience = Exclude<DiwaliAudience, 'Custom / Family'>;
 export type GarmentAngle = 'left' | 'front' | 'right';
@@ -191,4 +191,3 @@ export const occasions = [
 export type Occasion = typeof occasions[number]['id'];
 export interface FamilyMember { id: number; productId: string; size: string }
 export const MAX_FAMILY_MEMBERS = 5;
-
