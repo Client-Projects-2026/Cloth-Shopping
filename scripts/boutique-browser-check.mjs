@@ -86,7 +86,7 @@ try {
     check(await page.locator('.family-add-buttons button').evaluateAll(buttons => buttons.every(button => button.disabled)), 'Family limit is enforced');
     await page.locator('.family-row').first().getByLabel('Choose a stock style').selectOption('men-4');
     check((await page.locator('.hanging-garment img').first().getAttribute('src')).includes('men-4-rack'), 'Stock selection changes family garment');
-    await page.locator('.family-row').first().getByLabel('Size', { exact: true }).selectOption('XL');
+    await page.locator('.family-row').first().getByLabel(/^Size/).selectOption('XL');
     await page.locator('.hanging-garment').first().click();
     check(await page.locator('.selected-piece .size-choices button[aria-pressed="true"]').innerText().then(value => value.startsWith('XL')), 'Family size reaches product controls');
     await page.locator('.selected-piece .style-swatches button').nth(1).click();
@@ -131,4 +131,3 @@ try {
     check(errors.length === 0, 'No browser runtime errors: ' + errors.join('; '));
   }
 } finally { await browser.close(); }
-

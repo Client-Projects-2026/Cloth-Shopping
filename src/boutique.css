@@ -1,4 +1,4 @@
-﻿/* Boutique rack: individual, uncropped garment images and independent hanger motion. */
+/* Boutique rack: individual, uncropped garment images and independent hanger motion. */
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; opacity: .45; }
 button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 2px solid #46644e; outline-offset: 5px; }
@@ -216,4 +216,3 @@ button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-vi
   .garment-suspension, .shop-dialog[open] { animation: none !important; }
   .boutique-stage, .gallery-image-button img { transition: none; }
 }
-

@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Menu, X } from 'lucide-react';
 import { products, type Product } from './products';
 import { type DiwaliAudience } from './diwali';
@@ -47,4 +47,3 @@ export default function App() {
 
   </>;
 }
-

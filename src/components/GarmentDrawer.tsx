@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { garmentAngles, type DiwaliCollectionItem, type GarmentAngle } from '../diwali';
 import Dialog from './Dialog';
@@ -53,4 +53,3 @@ export default function GarmentDrawer({ item, size, onSize, onItem, onClose }: P
     </div>
   </Dialog>;
 }
-

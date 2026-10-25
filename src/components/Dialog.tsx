@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 
 interface Props { children: ReactNode; titleId: string; onClose: () => void; className?: string }
 export default function Dialog({ children, titleId, onClose, className = '' }: Props) {
@@ -35,4 +35,3 @@ export default function Dialog({ children, titleId, onClose, className = '' }: P
       if (event.target === event.currentTarget && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) onClose();
     }}>{children}</dialog>;
 }
-
