@@ -1,0 +1,219 @@
+﻿/* Boutique rack: individual, uncropped garment images and independent hanger motion. */
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .45; }
+button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 2px solid #46644e; outline-offset: 5px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.boutique-hero { gap: 30px; }
+.boutique-hero .hero-note { position: static; margin-top: 27px; }
+.campaign-art { position: relative; min-width: 0; }
+.campaign-arch { position: relative; height: 460px; border-radius: 240px 240px 8px 8px; background: #e8d4b2; border: 1px solid #d8c2a1; overflow: hidden; }
+.campaign-arch::before { content: ''; position: absolute; inset: 16px; border: 1px solid #fff8; border-radius: inherit; }
+.campaign-new .campaign-arch { background: #d6ddcb; border-color: #b9c2ae; }
+.campaign-family .campaign-arch { background: #e6cec8; border-color: #d8bab2; }
+.campaign-arch > p { text-align: center; position: relative; margin: 53px 0 0; font-size: 11px; letter-spacing: .18em; }
+.campaign-arch > p span { display: block; font-size: 8px; margin-top: 10px; letter-spacing: .16em; }
+.campaign-clothes { position: absolute; inset: 115px 20px 40px; display: flex; align-items: center; justify-content: center; }
+.campaign-clothes img { width: 36%; height: 96%; object-fit: contain; position: relative; filter: drop-shadow(3px 9px 7px #3d2c2020); }
+.campaign-clothes img:nth-child(2) { width: 42%; height: 115%; z-index: 1; margin: 0 -9%; }
+.campaign-clothes img:first-child { transform: rotate(-7deg); }
+.campaign-clothes img:last-child { transform: rotate(7deg); }
+.campaign-issue { position: absolute; bottom: 25px; width: 100%; text-align: center; font-size: 7px; letter-spacing: .15em; }
+.campaign-seal { width: 110px; height: 110px; background: #f1c885; border: 6px double #b9905790; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column; position: absolute; bottom: 55px; left: -25px; text-align: center; font-size: 12px; transform: rotate(-9deg); z-index: 2; }
+.campaign-seal em { font-family: 'Playfair Display', serif; font-size: 19px; }
+.campaign-seal small { font-size: 6px; letter-spacing: .1em; margin-top: 5px; }
+.campaign-navigation { display: flex; align-items: center; gap: 14px; padding: 18px 0 0 20px; }
+.campaign-navigation > button, .rack-scroll-controls button { width: 36px; height: 36px; display: grid; place-items: center; background: none; border: 1px solid #ccc4b5; border-radius: 50%; }
+.campaign-navigation > div { display: flex; gap: 8px; align-items: center; }
+.campaign-navigation > div button { width: 26px; height: 28px; border: 0; background: none; position: relative; }
+.campaign-navigation > div button::after { content: ''; position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #bcb5a8; left: 10px; top: 11px; }
+.campaign-navigation > div button[aria-pressed="true"]::after { background: #425b4a; outline: 1px solid #425b4a; outline-offset: 4px; }
+.campaign-count { font-size: 10px; color: #77705e; margin-left: auto; letter-spacing: .16em; }
+.boutique-rack { padding-left: 7%; padding-right: 7%; }
+.boutique-rack .section-heading { padding: 0 4.7%; }
+.rack-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin: 38px 0 20px; }
+.audience-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.audience-tabs button { border: 1px solid transparent; background: transparent; padding: 12px 19px; border-radius: 30px; font-size: 12px; color: #686253; min-height: 44px; }
+.audience-tabs button:hover { background: #e8e2d6; }
+.audience-tabs button[aria-pressed="true"] { color: #fff; background: #425b4a; }
+.occasion-picker { display: flex; gap: 10px; align-items: center; border: 1px solid #c6bda9; border-radius: 10px; background: #fcf9f1; padding: 9px 14px; color: #685836; flex-shrink: 0; }
+.occasion-picker > span { font-size: 9px; letter-spacing: .07em; }
+.occasion-picker select { display: block; border: 0; font: inherit; font-size: 13px; font-weight: 600; color: #393b30; background: transparent; padding: 3px 20px 0 0; width: 135px; cursor: pointer; }
+.boutique-stage { --scene: #efe2c7; --scene-light: #faf1dc; --scene-line: #b89252; position: relative; isolation: isolate; border: 1px solid #d8c7a5; border-radius: 15px; background: var(--scene); overflow: hidden; transition: background-color .4s, border-color .4s; }
+.theme-wedding { --scene: #ead4d0; --scene-light: #f9eae4; --scene-line: #b38879; border-color: #d4b6ae; }
+.theme-everyday { --scene: #dce3d7; --scene-light: #eef1e5; --scene-line: #8b9a80; border-color: #bdc8b6; }
+.stage-decoration { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.stage-arch { position: absolute; width: 64%; height: 145%; left: 18%; top: 50px; border-radius: 50% 50% 0 0; border: 1px solid #fff6; background: linear-gradient(90deg, transparent, var(--scene-light), transparent); opacity: .8; }
+.theme-wedding .stage-arch { width: 50%; left: 25%; top: 50px; border: 12px double #fff7; }
+.theme-everyday .stage-arch { inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; background: repeating-linear-gradient(100deg, transparent, transparent 95px, #ffffff35 97px, transparent 102px); }
+.stage-lights { display: flex; justify-content: space-around; position: absolute; inset: 0 0 auto; height: 100px; }
+.stage-lights i { position: relative; height: calc(16px + mod(var(--light), 3) * 16px); width: 1px; background: #a58c4d70; }
+.stage-lights i::after { content: ''; position: absolute; width: 5px; height: 7px; bottom: -6px; left: -2px; background: #fff8d4; border: 1px solid #d9b86d; border-radius: 50%; box-shadow: 0 0 15px 5px #fff0bcb0; }
+.theme-wedding .stage-lights, .theme-everyday .stage-lights { display: none; }
+.stage-flower { position: absolute; font-size: 100px; color: #bf815b25; top: 38px; }
+.flower-one { left: -22px; }.flower-two { right: -22px; transform: rotate(30deg); }
+.theme-wedding .stage-flower { color: #bd778b60; font-size: 170px; }
+.theme-everyday .stage-flower { color: #6d886435; top: 140px; }
+.stage-heading { position: relative; display: flex; justify-content: space-between; gap: 20px; padding: 27px 32px 15px; min-height: 104px; }
+.stage-heading > div > span { text-transform: uppercase; font-size: 9px; letter-spacing: .2em; font-weight: 700; color: #786547; }
+.stage-heading p { margin: 8px 0 0; font-family: 'Playfair Display', serif; font-size: 20px; color: #5f523e; }
+.motion-button { display: inline-flex; align-items: center; gap: 6px; align-self: center; border: 1px solid #8a795c55; border-radius: 20px; background: #fff6; padding: 9px 12px; font-size: 10px; color: #62543e; }
+.rack-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #ae9873 transparent; padding: 0 17px; }
+.rack-display { position: relative; min-width: 850px; padding: 20px 20px 6px; }
+.clothes-rail { position: absolute; top: 29px; left: 13px; right: 13px; height: 7px; border-radius: 8px; background: linear-gradient(#dcc698, #96733b 48%, #d9bf87 65%, #ad8b4e); box-shadow: 0 3px 5px #4b3b211c; z-index: 0; }
+.rail-post { position: absolute; top: 31px; bottom: 95px; width: 6px; background: linear-gradient(90deg, #c7ac77, #a18451, #d8c095); border-radius: 5px; }
+.rail-post::after { content: ''; width: 30px; height: 5px; background: #ac8e56; position: absolute; bottom: -3px; left: -12px; border-radius: 3px; }
+.post-left { left: 16px; }.post-right { right: 16px; }
+.garment-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; position: relative; }
+.garment-slot { min-width: 0; }
+.hanging-garment { display: flex; flex-direction: column; width: 100%; border: 0; padding: 0 4px; background: none; position: relative; }
+.garment-suspension { display: block; width: 100%; height: clamp(285px, 28vw, 380px); transform-origin: 50% 3%; animation: hanger-sway var(--sway-duration) ease-in-out var(--sway-delay) infinite; filter: drop-shadow(3px 7px 5px #44311c20); }
+.garment-suspension img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: top center; user-select: none; }
+.hanging-garment:hover .garment-suspension { animation-play-state: paused; filter: drop-shadow(4px 11px 8px #44311c38); }
+.hanging-garment:focus-visible { border-radius: 8px; outline-offset: 0; }
+.hanging-garment[aria-pressed="true"] .garment-suspension { filter: drop-shadow(0 7px 8px #44311c38); }
+.hanger-caption { display: flex; align-items: center; flex-direction: column; width: 100%; text-align: center; padding: 12px 4px; min-height: 98px; border-radius: 8px; transition: background .2s; }
+.hanger-caption small { text-transform: uppercase; font-size: 8px; letter-spacing: .11em; color: #75664f; }
+.hanger-caption strong { font-size: 12px; font-weight: 500; line-height: 1.5; margin: 5px 0; max-width: 165px; }
+.hanger-caption > span { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #5e7052; }
+.hanging-garment[aria-pressed="true"] .hanger-caption { background: #fff9; box-shadow: inset 0 0 0 1px #8d9a7270; }
+@keyframes hanger-sway { 0%, 100% { transform: rotate(-.9deg); } 50% { transform: rotate(1.1deg); } }
+[data-motion="paused"] .garment-suspension { animation-play-state: paused; }
+.stage-footer { padding: 20px 30px; margin: 0 15px; border-top: 1px solid #8e785933; display: flex; justify-content: space-between; align-items: center; gap: 15px; font-size: 10px; color: #655b47; }
+.stage-footer small { display: block; font-size: 8px; margin-top: 5px; color: #766a56; }
+.backdrop-description { font-size: 9px; }
+.rack-scroll-controls { display: none; align-items: center; gap: 10px; font-size: 9px; }
+.rack-select-hint { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; color: #736c5e; margin: 24px 0 0; text-align: center; line-height: 1.6; }
+.rack-select-hint > span { width: 5px; height: 5px; border-radius: 50%; background: #a38d63; flex-shrink: 0; }
+.empty-rack-slot { height: 100%; display: flex; flex-direction: column; text-align: center; color: #9f8252; }
+.empty-rack-slot svg { width: 100%; height: clamp(285px, 28vw, 380px); }
+.empty-rack-slot > span { font-size: 12px; color: #76684e; padding: 12px 0; }
+.empty-rack-slot small { display: block; font-size: 9px; margin-top: 7px; opacity: .8; }
+.selected-piece { display: grid; grid-template-columns: 220px 1fr; background: #fcfaf4; border: 1px solid #ddd5c6; border-radius: 12px; margin-top: 24px; overflow: hidden; }
+.selected-piece-art { background: #eae6dc; padding: 22px; display: grid; place-items: center; }
+.selected-piece-art img { width: 100%; height: 305px; object-fit: contain; }
+.selected-piece-details { padding: 28px 32px; min-width: 0; }
+.selected-piece-details .eyebrow { margin: 0 0 10px; font-size: 9px; }
+.selected-piece h3, .family-editor h3 { font-family: 'Playfair Display', serif; font-size: 27px; font-weight: 500; margin: 0; }
+.garment-options fieldset { border: 0; padding: 0; margin: 22px 0 0; min-width: 0; }
+.garment-options legend { padding: 0; margin-bottom: 10px; font-size: 11px; font-weight: 600; width: 100%; }
+.garment-options legend span { font-size: 10px; color: #857b69; font-weight: 400; margin-left: 9px; }
+.size-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.size-choices button { min-width: 63px; min-height: 53px; padding: 10px 14px; background: transparent; border: 1px solid #d6cdbd; border-radius: 5px; text-align: left; }
+.size-choices strong { display: block; font-size: 12px; font-weight: 500; }
+.size-choices small { display: block; margin-top: 5px; font-size: 9px; color: #817967; }
+.size-choices button[aria-pressed="true"] { border-color: #425b4a; background: #e6ebe2; box-shadow: 0 0 0 1px #425b4a; }
+.style-swatches { display: flex; flex-wrap: wrap; gap: 7px; }
+.style-swatches button { background: none; border: 1px solid transparent; padding: 5px; border-radius: 22px; display: flex; align-items: center; min-height: 35px; gap: 6px; }
+.style-swatches i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid #0002; }
+.style-swatches span { font-size: 10px; display: none; padding-right: 5px; }
+.style-swatches button[aria-pressed="true"] { border-color: #858c78; }
+.style-swatches button[aria-pressed="true"] span { display: block; }
+.selected-piece-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid #e2dccf; margin-top: 23px; padding-top: 20px; }
+.selected-piece-footer p { font-size: 10px; color: #6f695b; }
+.selected-piece-footer .button { border: 0; border-radius: 4px; font-size: 11px; gap: 22px; }
+.family-editor { margin-top: 23px; padding: 28px 32px; background: #fffaf1; border: 1px solid #ddd4c3; border-radius: 12px; }
+.family-editor-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+.family-editor .eyebrow { margin-bottom: 9px; }
+.family-editor h3 em { color: #bc7869; font-weight: 400; }
+.family-editor-heading > span { font-size: 10px; color: #796d57; white-space: nowrap; }
+.family-empty-copy { font-size: 12px; color: #80735f; line-height: 1.8; }
+.family-rows { margin-top: 20px; }
+.family-row { display: grid; grid-template-columns: 25px 110px 1fr 110px 35px; gap: 15px; align-items: center; padding: 14px 0; border-top: 1px solid #e4dccf; }
+.member-number { color: #a58d67; font-size: 12px; }
+.family-row label { font-size: 9px; color: #827660; min-width: 0; }
+.family-row select { margin-top: 6px; border: 1px solid #d7cebd; background: #fffcf7; border-radius: 4px; font: inherit; font-size: 11px; padding: 10px 8px; color: #4e493e; width: 100%; min-height: 41px; }
+.family-row > button { border: 0; background: none; width: 35px; height: 44px; display: grid; place-items: center; }
+.family-add-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.family-add-buttons button { display: flex; gap: 7px; align-items: center; padding: 12px 15px; border: 1px solid #c8bfad; background: transparent; border-radius: 5px; font-size: 11px; }
+.family-add-buttons button:hover:not(:disabled) { background: #e6e9de; border-color: #8b9b7c; }
+.sample-note { color: #817866; font-size: 10px; line-height: 1.7; margin: 18px 0 0; }
+.shop-dialog { position: fixed; inset: 0 0 0 auto; margin: 0; padding: 0; width: min(610px, 100vw); max-width: 100vw; height: 100dvh; max-height: 100dvh; border: 0; background: #fbf8f0; color: #292822; overflow-y: auto; overscroll-behavior: contain; box-shadow: -15px 0 60px #27231820; }
+.shop-dialog::backdrop { background: #272a2585; backdrop-filter: blur(4px); }
+.shop-dialog[open] { animation: drawer-enter .3s ease-out; }
+@keyframes drawer-enter { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.garment-drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 25px; border-bottom: 1px solid #e5ddce; position: sticky; top: 0; z-index: 4; background: #fbf8f0ed; backdrop-filter: blur(8px); }
+.garment-drawer-header > span { font-size: 9px; letter-spacing: .18em; color: #7c715e; }
+.garment-drawer-header button { border: 0; background: none; width: 40px; height: 40px; display: grid; place-items: center; }
+.garment-gallery { background: #eee9df; padding: 18px 25px 14px; }
+.gallery-topline { display: flex; justify-content: space-between; font-size: 8px; letter-spacing: .12em; color: #847862; text-transform: uppercase; }
+.gallery-image-button { display: block; width: 100%; height: min(47dvh, 470px); min-height: 290px; position: relative; background: transparent; border: 0; padding: 12px 15px; cursor: pointer; }
+.gallery-image-button img { display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity .2s; }
+.gallery-image-button img.view-loaded { opacity: 1; }
+.image-loading { position: absolute; inset: 0; display: grid; place-items: center; font-size: 11px; color: #7b715e; }
+.angle-controls { display: flex; justify-content: center; align-items: center; gap: 20px; }
+.angle-controls > button { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #cfc6b6; border-radius: 50%; background: #ffffff60; }
+.angle-controls > div { display: flex; background: #e0dacd; border-radius: 30px; padding: 4px; }
+.angle-controls > div button { border: 0; background: transparent; font-size: 11px; text-transform: capitalize; padding: 10px 17px; border-radius: 25px; }
+.angle-controls button[aria-pressed="true"] { background: #fcf9f0; box-shadow: 0 2px 4px #493c2114; }
+.gallery-hint { text-align: center; margin: 13px 0 0; font-size: 9px; color: #80745f; }
+.garment-drawer-details { padding: 29px 32px 35px; }
+.garment-drawer-details .eyebrow { margin-bottom: 12px; }
+.garment-drawer-details h2 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 500; line-height: 1.18; margin: 0; }
+.garment-description { font-size: 12px; color: #827763; line-height: 1.8; margin: 15px 0 0; }
+.selection-summary { margin-top: 25px; padding-top: 20px; border-top: 1px solid #ded7c9; display: flex; justify-content: space-between; gap: 15px; font-size: 11px; color: #7b715f; }
+.selection-summary strong { font-weight: 500; color: #425b4a; }
+.everyday-drawer .drawer-close { z-index: 5; }
+@media (min-width: 1600px) { .boutique-rack { padding-left: max(7%, calc((100vw - 1380px) / 2)); padding-right: max(7%, calc((100vw - 1380px) / 2)); } }
+@media (max-width: 1100px) {
+  .boutique-hero { padding-left: 7%; padding-right: 7%; }
+  .campaign-arch { height: 415px; }
+  .campaign-clothes { inset: 100px 12px 35px; }
+  .rack-toolbar { gap: 12px; }
+  .audience-tabs button { padding: 11px 13px; }
+  .boutique-rack { padding-left: 5%; padding-right: 5%; }
+  .boutique-rack .section-heading { padding: 0; }
+  .rack-scroll-controls { display: flex; }.backdrop-description { display: none; }
+}
+@media (max-width: 760px) {
+  .boutique-hero { grid-template-columns: 1fr; gap: 32px; padding: 48px 7% 60px; }
+  .boutique-hero .hero-copy { padding: 0; }
+  .boutique-hero .hero-note { margin-top: 23px; }
+  .campaign-art { width: min(100%, 430px); margin: 0 auto; }
+  .campaign-arch { height: 410px; }
+  .campaign-seal { left: -10px; width: 95px; height: 95px; bottom: 63px; }
+  .campaign-navigation { padding-left: 0; }
+  .boutique-rack { padding-top: 60px; padding-bottom: 60px; }
+  .rack-toolbar { flex-direction: column-reverse; align-items: stretch; margin-top: 28px; gap: 18px; }
+  .occasion-picker { align-self: flex-start; padding: 8px 12px; }
+  .occasion-picker > span { display: flex; align-items: center; gap: 16px; font-size: 11px; }
+  .occasion-picker select { width: 108px; padding-top: 0; }
+  .audience-tabs { gap: 3px; justify-content: space-between; }
+  .audience-tabs button { font-size: 11px; padding: 10px 12px; }
+  .stage-heading { padding: 24px 20px 12px; min-height: 100px; }
+  .stage-heading p { font-size: 17px; max-width: 220px; line-height: 1.4; }
+  .stage-heading > div > span { font-size: 8px; }
+  .motion-button { padding: 9px; }.motion-button span { display: none; }
+  .rack-scroll { padding: 0 10px; }
+  .rack-display { min-width: 880px; }
+  .garment-suspension, .empty-rack-slot svg { height: 290px; }
+  .stage-footer { padding: 17px 5px; margin: 0 20px; gap: 10px; }
+  .stage-footer > span { font-size: 9px; }.stage-footer small { font-size: 7px; }
+  .rack-scroll-controls { gap: 6px; }.rack-scroll-controls button { width: 30px; height: 30px; }
+  .rack-scroll-controls > span { display: none; }
+  .selected-piece { grid-template-columns: 1fr; }
+  .selected-piece-art { padding: 15px; }
+  .selected-piece-art img { height: 230px; }
+  .selected-piece-details { padding: 24px 20px; }
+  .selected-piece h3 { font-size: 25px; }
+  .selected-piece-footer { flex-wrap: wrap; }
+  .family-editor { padding: 24px 18px; }
+  .family-editor h3 { font-size: 24px; }
+  .family-editor-heading { align-items: flex-start; }
+  .family-editor-heading > span { margin-top: 3px; font-size: 9px; }
+  .family-row { grid-template-columns: 20px 1fr 1fr 28px; gap: 10px; }
+  .family-row label:nth-of-type(2) { grid-column: 2 / 4; grid-row: 2; }
+  .family-row > button { grid-column: 4; grid-row: 1; }
+  .family-add-buttons { gap: 6px; }.family-add-buttons button { padding: 10px 12px; }
+  .garment-drawer-header { padding: 9px 18px; }
+  .garment-gallery { padding: 17px 17px 14px; }
+  .gallery-image-button { height: 43dvh; min-height: 260px; }
+  .angle-controls { gap: 12px; }.angle-controls > div button { padding: 10px 15px; }
+  .garment-drawer-details { padding: 25px 23px; }
+  .garment-drawer-details h2 { font-size: 29px; }
+}
+@media (max-width: 380px) { .audience-tabs button { padding: 10px 8px; font-size: 10px; } .family-editor-heading { flex-wrap: wrap; } }
+@media (prefers-reduced-motion: reduce) {
+  .garment-suspension, .shop-dialog[open] { animation: none !important; }
+  .boutique-stage, .gallery-image-button img { transition: none; }
+}
+
