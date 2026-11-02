@@ -4,10 +4,11 @@ export type ClothingAudience = Exclude<DiwaliAudience, 'Custom / Family'>;
 export type GarmentAngle = 'left' | 'front' | 'right';
 export const garmentAngles: GarmentAngle[] = ['left', 'front', 'right'];
 export interface DiwaliCollectionItem {
-  id: string; audience: ClothingAudience; name: string; type: string;
+  id: string; audience: ClothingAudience; slot: number; name: string; type: string;
   color: string; colorName: string; description: string;
-  images: Record<GarmentAngle, string>; thumbnail: string;
+  images: { front: string; left?: string; right?: string }; thumbnail: string;
   availableSizes: { size: string; count: number }[];
+  priceMinor?: number; isDemo?: boolean;
 }
 type ProductSeed = [string, ClothingAudience, string, string, string, string];
 const pieces: ProductSeed[] = [
@@ -175,7 +176,7 @@ const pieces: ProductSeed[] = [
 
 // Demo designs and quantities, not live stock. Every angle is a separate complete asset.
 export const diwaliCollections: DiwaliCollectionItem[] = pieces.map(([id, audience, name, type, color, colorName], index) => ({
-  id, audience, name, type, color, colorName,
+  id, audience, slot: index % 5 + 1, name, type, color, colorName, isDemo: true,
   description: `${colorName} tones, delicate festive detailing and an easy silhouette. A ${type.toLowerCase()} for your celebration edit.`,
   thumbnail: `/garments/${id}-rack.webp`,
   images: { front: `/garments/${id}-front.webp`, left: `/garments/${id}-left.webp`, right: `/garments/${id}-right.webp` },

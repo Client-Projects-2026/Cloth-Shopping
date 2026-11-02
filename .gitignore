@@ -6,3 +6,6 @@ artifacts/
 *.log
 .env.local
 .env.*.local
+.env
+.env.*
+!.env.example

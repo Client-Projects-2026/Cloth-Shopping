@@ -1,1 +1,33 @@
-{"name":"local-clothing-shop-demo","private":true,"version":"1.0.0","type":"module","scripts":{"dev":"vite","build":"tsc -b && vite build","preview":"vite preview"},"dependencies":{"lucide-react":"^0.468.0","react":"latest","react-dom":"latest"},"devDependencies":{"@playwright/test":"^1.64.1","@types/node":"latest","@types/react":"latest","@types/react-dom":"latest","@vitejs/plugin-react":"latest","sharp":"^0.35.5","typescript":"latest","vite":"latest"}}
+{
+  "name": "local-clothing-shop-demo",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "format:admin": "prettier --write src/admin src/catalog.tsx src/lib/supabase.ts src/main.tsx",
+    "format:check": "prettier --check src/admin src/catalog.tsx src/lib/supabase.ts src/main.tsx",
+    "test:shop": "node scripts/boutique-browser-check.mjs",
+    "test:admin": "node scripts/admin-browser-check.mjs",
+    "test:routes": "node scripts/production-route-check.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
+    "lucide-react": "^0.468.0",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "latest",
+    "prettier": "^3.9.10",
+    "sharp": "^0.35.5",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}

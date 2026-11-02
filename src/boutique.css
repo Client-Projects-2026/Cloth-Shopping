@@ -74,6 +74,7 @@ button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-vi
 .hanger-caption { display: flex; align-items: center; flex-direction: column; width: 100%; text-align: center; padding: 12px 4px; min-height: 98px; border-radius: 8px; transition: background .2s; }
 .hanger-caption small { text-transform: uppercase; font-size: 8px; letter-spacing: .11em; color: #75664f; }
 .hanger-caption strong { font-size: 12px; font-weight: 500; line-height: 1.5; margin: 5px 0; max-width: 165px; }
+.hanger-price { font-size: 10px; font-weight: 700; color: #425b4a; margin: 0 0 5px; }
 .hanger-caption > span { display: flex; align-items: center; gap: 5px; font-size: 9px; color: #5e7052; }
 .hanging-garment[aria-pressed="true"] .hanger-caption { background: #fff9; box-shadow: inset 0 0 0 1px #8d9a7270; }
 @keyframes hanger-sway { 0%, 100% { transform: rotate(-.9deg); } 50% { transform: rotate(1.1deg); } }
@@ -216,3 +217,4 @@ button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-vi
   .garment-suspension, .shop-dialog[open] { animation: none !important; }
   .boutique-stage, .gallery-image-button img { transition: none; }
 }
+.app-loading { min-height: 100dvh; display: grid; place-items: center; color: #425b4a; font-size: 13px; }

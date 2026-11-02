@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Pause, Play, Sparkles } from 'lucide-react';
-import { collectionFor, diwaliAudiences, diwaliCollections, occasions, MAX_FAMILY_MEMBERS, type ClothingAudience, type DiwaliAudience, type DiwaliCollectionItem, type FamilyMember, type Occasion } from '../diwali';
+import { diwaliAudiences, occasions, MAX_FAMILY_MEMBERS, type ClothingAudience, type DiwaliAudience, type DiwaliCollectionItem, type FamilyMember, type Occasion } from '../diwali';
+import { useCatalog, useCollectionFor } from '../catalog';
 import GarmentOptions from './GarmentOptions';
 import GarmentDrawer from './GarmentDrawer';
 import FamilyBuilder from './FamilyBuilder';
@@ -13,6 +14,8 @@ function EmptyHanger({ number }: { number: number }) {
   </div>;
 }
 export default function ClothingRack({ audience, onAudience }: Props) {
+  const { items: catalog, loading, error } = useCatalog();
+  const collectionFor = useCollectionFor();
   const [occasion, setOccasion] = useState<Occasion>('diwali');
   const [paused, setPaused] = useState(false);
   const [selection, setSelection] = useState<{ itemId: string; memberId?: number; size: string } | null>(null);
@@ -23,8 +26,9 @@ export default function ClothingRack({ audience, onAudience }: Props) {
   useEffect(() => { setSelection(null); setDrawerOpen(false); }, [audience]);
   const theme = occasions.find(value => value.id === occasion)!;
   const family = audience === 'Custom / Family';
-  const selected = selection ? diwaliCollections.find(item => item.id === selection.itemId) : undefined;
-  const items = family ? members.map(member => diwaliCollections.find(item => item.id === member.productId)!) : collectionFor(audience);
+  const selected = selection ? catalog.find(item => item.id === selection.itemId) : undefined;
+  const items = family ? members.map(member => catalog.find(item => item.id === member.productId)) :
+    Array.from({ length: 5 }, (_, index) => collectionFor(audience).find(item => item.slot === index + 1));
   const chooseAudience = (value: DiwaliAudience) => {
     setSelection(null); setDrawerOpen(false); onAudience(value);
     scrollRef.current?.scrollTo({ left: 0, behavior: 'instant' });
@@ -46,6 +50,7 @@ export default function ClothingRack({ audience, onAudience }: Props) {
   };
   const addMember = (role: ClothingAudience) => {
     const item = collectionFor(role)[0];
+    if (!item) return;
     const member = { id: nextId.current++, productId: item.id, size: item.availableSizes[0].size };
     setMembers(values => values.length < MAX_FAMILY_MEMBERS ? [...values, member] : values);
   };
@@ -65,6 +70,7 @@ export default function ClothingRack({ audience, onAudience }: Props) {
       )}</div>
       <label className="occasion-picker"><Sparkles size={16}/><span>Rack backdrop<select aria-label="Change occasion backdrop" value={occasion} onChange={event => setOccasion(event.target.value as Occasion)}>{occasions.map(value => <option key={value.id} value={value.id}>{value.label}</option>)}</select></span></label>
     </div>
+    {error && <p className="catalog-status" role="status">Live inventory is temporarily unavailable. Please try again later.</p>}
     <div className={`boutique-stage theme-${occasion}`} data-motion={paused ? 'paused' : 'playing'}>
       <div className="stage-decoration" aria-hidden="true"><div className="stage-arch"/><div className="stage-lights">{Array.from({ length: 13 }, (_, i) => <i key={i} style={{ '--light': i } as CSSProperties}/>)}</div><span className="stage-flower flower-one">✳</span><span className="stage-flower flower-two">✳</span></div>
       <div className="stage-heading"><div><span>{theme.label} edit</span><p>{theme.caption}</p></div><button className="motion-button" onClick={() => setPaused(value => !value)} aria-label={paused ? 'Play garment motion' : 'Pause garment motion'} aria-pressed={paused}>{paused ? <Play size={14}/> : <Pause size={14}/>}<span>{paused ? 'Play motion' : 'Pause motion'}</span></button></div>
@@ -79,20 +85,20 @@ export default function ClothingRack({ audience, onAudience }: Props) {
               {item ? <button className="hanging-garment" aria-label={`Select ${item.name}`} aria-pressed={active}
                 onClick={() => selectItem(item, member)} style={{ '--sway-duration': `${5.8 + index * .55}s`, '--sway-delay': `${-index * 1.7}s` } as CSSProperties}>
                 <span className="garment-suspension"><img src={item.thumbnail} alt={item.name} draggable={false} loading="lazy" decoding="async"/></span>
-                <span className="hanger-caption"><small>{family ? `0${index + 1} / ${item.audience}` : item.type}</small><strong>{item.name}</strong><span>{active ? <><Check size={12}/> Selected</> : <>Explore piece <ArrowUpRight size={12}/></>}</span></span>
+                <span className="hanger-caption"><small>{family ? `0${index + 1} / ${item.audience}` : item.type}</small><strong>{item.name}</strong>{item.priceMinor !== undefined && <b className="hanger-price">₹{(item.priceMinor / 100).toLocaleString('en-IN')}</b>}<span>{active ? <><Check size={12}/> Selected</> : <>Explore piece <ArrowUpRight size={12}/></>}</span></span>
               </button> : <EmptyHanger number={index + 1}/>}
             </div>;
           })}</div>
         </div>
       </div>
-      <div className="stage-footer"><span>{family ? `${members.length} of 5 hangers filled` : '5 pieces, picked for the occasion'}<small>Garment designs &amp; stock are samples</small></span>
+      <div className="stage-footer"><span>{family ? `${members.length} of 5 hangers filled` : `${items.filter(Boolean).length} pieces, picked for the occasion`}<small>{error ? 'Live inventory is unavailable' : loading ? 'Checking live inventory…' : items.some(item => item && !item.isDemo) ? 'Live stock details are supplied by the shop' : 'Garment designs & stock are samples'}</small></span>
         <div className="rack-scroll-controls"><button onClick={() => scrollRef.current?.scrollBy({ left: -210, behavior: 'smooth' })} aria-label="Scroll rack left"><ArrowLeft size={17}/></button><span>Swipe to browse</span><button onClick={() => scrollRef.current?.scrollBy({ left: 210, behavior: 'smooth' })} aria-label="Scroll rack right"><ArrowRight size={17}/></button></div>
         <span className="backdrop-description" aria-live="polite">{theme.detail}</span></div>
     </div>
     {family && <FamilyBuilder members={members} onAdd={addMember} onUpdate={updateMember} onRemove={removeMember}/>}
     {selected && selection && <div className="selected-piece" key={selection.memberId ?? 'collection'}>
       <div className="selected-piece-art"><img src={selected.images.front} alt={`Full view of ${selected.name}`}/></div>
-      <div className="selected-piece-details"><p className="eyebrow">{selected.audience} / YOUR PICK</p><h3>{selected.name}</h3>
+      <div className="selected-piece-details"><p className="eyebrow">{selected.audience} / YOUR PICK</p><h3>{selected.name}</h3>{selected.priceMinor !== undefined && <p className="catalog-price">₹{(selected.priceMinor / 100).toLocaleString('en-IN')}</p>}
         <GarmentOptions item={selected} size={selection.size} onSize={changeSize} onItem={changeStyle}/>
         <div className="selected-piece-footer"><p aria-live="polite">{selected.colorName} · {selection.size || 'Choose your size'}</p><button className="button button-dark" onClick={() => setDrawerOpen(true)}>View this piece <ArrowUpRight size={17}/></button></div>
       </div>

@@ -1,4 +1,5 @@
-import { collectionFor, type DiwaliCollectionItem } from '../diwali';
+import { type DiwaliCollectionItem } from '../diwali';
+import { useCollectionFor } from '../catalog';
 
 interface Props {
   item: DiwaliCollectionItem;
@@ -7,9 +8,10 @@ interface Props {
   onItem: (item: DiwaliCollectionItem) => void;
 }
 export default function GarmentOptions({ item, size, onSize, onItem }: Props) {
+  const collectionFor = useCollectionFor();
   return <div className="garment-options">
     <fieldset>
-      <legend>Size <span>Sample stock</span></legend>
+      <legend>Size <span>{item.isDemo ? 'Sample stock' : 'Available stock'}</span></legend>
       <div className="size-choices">{item.availableSizes.map(option =>
         <button type="button" key={option.size} aria-pressed={size === option.size}
           disabled={option.count === 0} onClick={() => onSize(option.size)}>
