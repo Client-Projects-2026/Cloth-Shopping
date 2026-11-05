@@ -11,6 +11,7 @@ import {
   Plus,
   ShieldCheck,
   Shirt,
+  ShoppingBag,
 } from 'lucide-react';
 import type { AdminPage } from '../model';
 
@@ -20,10 +21,12 @@ const labels: Record<AdminPage, string> = {
   add: 'Add product',
   guide: 'Image guide',
   editor: 'Edit product',
+  everyday: 'Everyday collection',
 };
 const navigation: { page: AdminPage; icon: typeof LayoutDashboard; caption: string }[] = [
   { page: 'overview', icon: LayoutDashboard, caption: 'Your shop at a glance' },
   { page: 'inventory', icon: Shirt, caption: 'Manage the five hangers' },
+  { page: 'everyday', icon: ShoppingBag, caption: 'Pieces for real life' },
   { page: 'add', icon: Plus, caption: 'Publish a new look' },
   { page: 'guide', icon: ImageIcon, caption: 'Prepare product photos' },
 ];

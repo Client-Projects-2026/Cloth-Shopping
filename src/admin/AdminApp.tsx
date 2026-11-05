@@ -1,10 +1,11 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import type { ClothingAudience } from '../diwali';
-import { prepareGarmentImage, type PreparedImage } from './images';
 import { makeForm, seedFor, type AdminPage, type FormImage, type ProductForm } from './model';
 import { useAdminSession } from './useAdminSession';
 import { useInventory } from './useInventory';
+import { usePreparedImages } from './usePreparedImages';
 import AdminShell from './pages/AdminShell';
+import EverydayCollectionPage from './pages/EverydayCollectionPage';
 import ImageGuidePage from './pages/ImageGuidePage';
 import InventoryPage from './pages/InventoryPage';
 import LoginPage from './pages/LoginPage';
@@ -20,27 +21,20 @@ export default function AdminApp() {
   const [filter, setFilter] = useState<'All' | ClothingAudience>('All');
   const [search, setSearch] = useState('');
   const [form, setForm] = useState<ProductForm>(() => makeForm('Men', 1));
-  const [assets, setAssets] = useState<Partial<Record<FormImage, PreparedImage>>>({});
+  const { assets, prepare: prepareImage, reset: resetImages } = usePreparedImages();
   const unavailable =
     session.status === 'authorized' && (inventory.loading || inventory.loadFailed);
 
-  useEffect(
-    () => () => {
-      Object.values(assets).forEach((asset) => asset && URL.revokeObjectURL(asset.preview));
-    },
-    [assets],
-  );
-
   function openEditor(audience: ClothingAudience, slot: number) {
     const row = inventory.rows.find((item) => item.audience === audience && item.slot === slot);
-    setAssets({});
+    resetImages();
     setForm(makeForm(audience, slot, row, seedFor(audience, slot)));
     inventory.clearMessages();
     setPage('editor');
   }
 
   function startNew() {
-    setAssets({});
+    resetImages();
     setForm(makeForm('Men', 1));
     inventory.clearMessages();
     setPage('add');
@@ -49,6 +43,7 @@ export default function AdminApp() {
   function navigate(next: AdminPage) {
     if (next === 'add') startNew();
     else {
+      resetImages();
       inventory.clearMessages();
       setPage(next);
     }
@@ -59,8 +54,7 @@ export default function AdminApp() {
     if (!file) return;
     inventory.clearMessages();
     try {
-      const image = await prepareGarmentImage(file, kind === 'front');
-      setAssets((current) => ({ ...current, [kind]: image }));
+      if (!(await prepareImage(kind, file))) return;
       inventory.setNotice(
         `${kind === 'front' ? 'Front and rack thumbnail' : `${kind} view`} converted to WebP, ready to publish.`,
       );
@@ -75,7 +69,7 @@ export default function AdminApp() {
     event.preventDefault();
     if (preview || session.status !== 'authorized') return;
     if (await inventory.publish(form, assets)) {
-      setAssets({});
+      resetImages();
       setPage('inventory');
     }
   }
@@ -83,7 +77,8 @@ export default function AdminApp() {
   async function exit() {
     inventory.clearMessages();
     if (preview) setPreview(false);
-    else await session.signOut();
+    else if (!(await session.signOut())) return;
+    resetImages();
     setPage('overview');
   }
 
@@ -107,7 +102,7 @@ export default function AdminApp() {
       page={page}
       preview={preview}
       notice={inventory.notice}
-      error={inventory.error}
+      error={inventory.error || session.error}
       onNavigate={navigate}
       onExit={exit}
     >
@@ -169,6 +164,9 @@ export default function AdminApp() {
         />
       )}
       {!unavailable && page === 'guide' && <ImageGuidePage onAdd={startNew} />}
+      {!unavailable && page === 'everyday' && (
+        <EverydayCollectionPage preview={preview} userId={session.userId} />
+      )}
     </AdminShell>
   );
 }

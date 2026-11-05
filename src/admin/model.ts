@@ -7,7 +7,7 @@ import {
 } from '../diwali';
 import type { PreparedImage } from './images';
 
-export type AdminPage = 'overview' | 'inventory' | 'add' | 'guide' | 'editor';
+export type AdminPage = 'overview' | 'inventory' | 'add' | 'guide' | 'editor' | 'everyday';
 export type FormImage = GarmentAngle;
 export type ProductForm = {
   audience: ClothingAudience;
@@ -114,7 +114,11 @@ export function validateProduct(
     new Set(form.sizes.map((entry) => entry.size.trim().toLowerCase())).size !== form.sizes.length
   )
     return 'Each size needs a unique label.';
-  if (!assets.front && (!form.paths.front || !form.paths.rack))
+  // Sample artwork must not be promoted to a live product without a shop photo.
+  if (
+    !assets.front &&
+    (!form.paths.front || !form.paths.rack || form.paths.front.startsWith('/garments/'))
+  )
     return 'Upload a transparent front image for the hanger.';
   return null;
 }

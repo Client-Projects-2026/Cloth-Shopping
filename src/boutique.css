@@ -218,3 +218,27 @@ button:focus-visible, a:focus-visible, select:focus-visible, [tabindex]:focus-vi
   .boutique-stage, .gallery-image-button img { transition: none; }
 }
 .app-loading { min-height: 100dvh; display: grid; place-items: center; color: #425b4a; font-size: 13px; }
+.product-visual .real-product-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 18px 16px 29px;
+  transition: transform .35s ease;
+}
+.product-card:hover .real-product-image { transform: translateY(-5px); }
+.drawer-art .real-product-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 30px;
+}
+.everyday-price { font-size: 20px; font-weight: 700; margin: 20px 0 0; color: var(--green); }
+.everyday-sizes { border: 0; border-top: 1px solid var(--line); margin: 20px 0 0; padding: 15px 0 0; }
+.everyday-sizes legend { font-size: 11px; font-weight: 700; padding-right: 10px; }
+.everyday-sizes > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.everyday-sizes button { border: 1px solid #d7d0c3; background: transparent; padding: 9px 12px; cursor: pointer; min-width: 70px; }
+.everyday-sizes button small { display: block; font-size: 8px; margin-top: 3px; }
+.everyday-sizes button[aria-pressed="true"] { background: var(--green); color: white; border-color: var(--green); }
+.everyday-sizes button:disabled { opacity: .4; cursor: not-allowed; }

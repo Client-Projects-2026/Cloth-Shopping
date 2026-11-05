@@ -19,7 +19,7 @@ export async function loadInventory(): Promise<CatalogRow[]> {
   return (data ?? []) as CatalogRow[];
 }
 
-async function uploadImage(userId: string, blob: Blob): Promise<string> {
+export async function uploadImage(userId: string, blob: Blob): Promise<string> {
   if (!userId) throw new Error('Your admin session has expired. Sign in again.');
   const path = `${userId}/${crypto.randomUUID()}.webp`;
   const { error } = await client().storage.from(GARMENT_BUCKET).upload(path, blob, {

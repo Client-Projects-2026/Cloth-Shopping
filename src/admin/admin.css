@@ -1537,3 +1537,114 @@
     transform: none;
   }
 }
+.everyday-admin-intro {
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+.everyday-admin-intro strong {
+  color: #284333;
+  font-size: 14px;
+}
+.everyday-admin-intro p {
+  margin: 5px 0 0;
+  color: #68756a;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.everyday-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.everyday-admin-item {
+  overflow: hidden;
+}
+.everyday-admin-photo {
+  height: 215px;
+  display: grid;
+  place-items: center;
+  background: #edf0e9;
+  overflow: hidden;
+}
+.everyday-admin-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+.everyday-admin-photo .garment-svg {
+  width: 150px;
+  height: 185px;
+}
+.everyday-admin-meta {
+  padding: 16px 17px 10px;
+}
+.everyday-admin-meta small {
+  display: block;
+  margin-top: 10px;
+  color: #778276;
+  font-size: 10px;
+}
+.everyday-admin-meta h2 {
+  font:
+    500 22px 'Playfair Display',
+    serif;
+  margin: 6px 0 4px;
+}
+.everyday-admin-meta p {
+  margin: 0;
+  color: #45574a;
+  font-size: 12px;
+}
+.everyday-admin-actions {
+  display: flex;
+  gap: 8px;
+  padding: 8px 17px 17px;
+}
+.everyday-admin-actions button {
+  border: 1px solid #cdd8cc;
+  background: white;
+  padding: 8px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.everyday-admin-actions button:hover {
+  border-color: #425b4a;
+}
+.everyday-admin-actions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.everyday-upload-preview {
+  min-height: 260px;
+  max-height: 330px;
+  background: #edf1ea;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #9aaf9d;
+}
+.everyday-upload-preview img {
+  width: 100%;
+  height: 100%;
+  max-height: 330px;
+  object-fit: contain;
+}
+.everyday-upload-button {
+  display: inline-flex;
+  margin-top: 12px;
+}
+@media (max-width: 900px) {
+  .everyday-admin-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .everyday-admin-grid {
+    grid-template-columns: 1fr;
+  }
+}

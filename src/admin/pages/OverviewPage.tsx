@@ -29,7 +29,7 @@ export default function OverviewPage({
         <div>
           <p className="admin-kicker">GOOD TO SEE YOU</p>
           <h1>Your shop, at a glance.</h1>
-          <p>Keep the latest looks in front of your customers, one hanger at a time.</p>
+          <p>Manage the festive rack and everyday collection from one studio.</p>
         </div>
         <button className="admin-primary" onClick={onAdd}>
           <Plus size={18} /> Add a product

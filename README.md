@@ -4,7 +4,7 @@ React, TypeScript and Vite. The shop name, products, stock counts and campaign c
 
 ## Try the demo
 
-- Open `/admin` for the shop studio. The read-only preview shows the dashboard, rack inventory, editor and image guide without exposing write access. Once connected, approved admins can sign in and publish real pieces.
+- Open `/admin` for the shop studio. The read-only preview shows the dashboard, rack inventory, everyday collection editor and image guide without exposing write access. Once connected, approved admins can sign in and publish real pieces.
 
 - In **Take a peek at the rack**, use **Rack backdrop** above the rack to choose **Diwali**, **Wedding** or **Everyday**. This changes the setting without clearing the family edit.
 - Men, Women, Girls and Boys each have five individual garment images. Each complete transparent image moves from its own hanger; the brass rail stays still. Use **Pause motion** to stop the animation.
@@ -23,7 +23,7 @@ On phones the rack scrolls horizontally. The drawer supports Escape, a keyboard 
 - Browser checks, with a local server running: `node scripts/boutique-browser-check.mjs`
 - Admin browser checks, with a local server running: `npm run test:admin`
 - Built-route browser check, with `npm run preview` running: `npm run test:routes`
-- Admin source formatting check: `npm run format:check`
+- Changed source formatting check: `npm run format:check`
 - Set `DEMO_URL` to test another local URL. The checks use installed Google Chrome through Playwright and save screenshots in `artifacts/`.
 
 Playwright and Sharp are development tools only; neither is bundled into the storefront.
@@ -38,11 +38,17 @@ Playwright and Sharp are development tools only; neither is bundled into the sto
 | `src/admin/model.ts` | Product form types, defaults, validation and hanger slots |
 | `src/admin/useAdminSession.ts` | Admin sign-in and membership checks |
 | `src/admin/useInventory.ts` | Inventory loading, publish and hide state |
+| `src/admin/usePreparedImages.ts` | Image conversion state, stale upload protection and preview cleanup |
 | `src/admin/catalogRepository.ts` | Supabase catalog queries and image uploads |
+| `src/stock.ts` | Available-size and stock selection rules for the family rack |
 | `src/main.tsx` | Loads the storefront or admin route on demand |
 | `src/admin/images.ts` | Browser image preparation and WebP conversion |
 | `src/catalog.tsx` | Live catalog loading and demo-slot replacement |
+| `src/everydayCatalog.ts` | Live everyday collection loading, validation and sample fallback |
+| `src/admin/pages/EverydayCollectionPage.tsx` | Admin list and editor for Pieces for real life |
+| `src/admin/useEverydayInventory.ts` | Everyday product load, publish and hide state |
 | `supabase/migrations/20261101000000_catalog_admin.sql` | Database, admin authorization and upload policies |
+| `supabase/migrations/20261105000000_everyday_collection.sql` | Everyday collection table, public read function and admin policies |
 | `src/components/ClothingRack.tsx` | Categories, backdrop, independent hangers and selection state |
 | `src/components/FamilyBuilder.tsx` | Five-person family edit and stock-style selection |
 | `src/components/GarmentDrawer.tsx` | Complete single-garment angle gallery |
@@ -61,7 +67,7 @@ The old collection-sheet assets remain available as reference material; the inte
 3. Supply the real address, visit hours, phone, WhatsApp, email and social profiles before adding contact links.
 4. Replace the product records in `src/diwali.ts`, including names, descriptions, accurate size quantities and garment colors. Color/style swatches currently select other demo designs in the same category.
 5. For each product, replace `{id}-front.webp`, `{id}-left.webp`, `{id}-right.webp` and `{id}-rack.webp` with complete, owned photographs. Preserve transparent backgrounds for hanging pieces. Do not crop a collection sheet into product images.
-6. The everyday illustrated collection is configured separately in `src/products.ts` and `src/Garment.tsx`.
+6. The six everyday illustrations in `src/products.ts` and `src/Garment.tsx` are the initial sample collection. Add the shop's products through **Everyday collection** in `/admin`; the first published item replaces the samples in **Pieces for real life**.
 7. Confirm any sale discount, terms, dates and eligible products before publishing an offer. This demo does not invent a discount or claim real availability.
 
 Generated asset provenance and the final prompt set are documented in [garment asset notes](public/garments/ASSET-NOTES.md). `scripts/prepare-garments.mjs <original-image-directory>` recreates the web formats from those original generated PNG files; it preserves the entire image and transparency.
@@ -72,9 +78,9 @@ For Vercel, connect the GitHub `main` branch, use the Vite framework preset, bui
 
 ## Connect live admin management
 
-1. Create a Supabase project. Apply `supabase/migrations/20261101000000_catalog_admin.sql` in its SQL editor. This creates the product table, a public catalog read function, a `catalog-garments` storage bucket, and row-level policies. Direct table writes and image uploads require administrator membership.
+1. Create a Supabase project. Apply `supabase/migrations/20261101000000_catalog_admin.sql`, then `supabase/migrations/20261105000000_everyday_collection.sql` in its SQL editor. These create the rack and everyday product tables, public catalog read functions, the `catalog-garments` storage bucket, and row-level policies. Direct table writes and image uploads require administrator membership. If the first migration is already installed, apply only the second.
 2. In Supabase Auth, disable public sign-ups for this private shop studio. Create an owner user in the Supabase dashboard, then copy that user's UUID and run `insert into public.admin_users (user_id) values ('YOUR-USER-UUID');` in the SQL editor. Give each additional manager a separate Auth account and membership row. Do not put a service-role key in this Vite project.
 3. Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_PUBLISHABLE_KEY` to the Vercel project's Production environment (and Preview if desired), using `.env.example` as the local template. These are public browser connection values; the SQL policies enforce access. Redeploy after adding them. For local testing, save them in `.env.local`.
-4. Visit `/admin`, sign in, and use **Rack inventory** to edit a slot or **Add product** to replace a slot. Each of Men, Women, Girls and Boys has five slots. **Publish product** updates the live rack without another Git push; **Hide** removes the chosen hanger from the public rack. Unchanged slots continue to show the built-in demo pieces.
+4. Visit `/admin`, sign in, and use **Rack inventory** to edit a slot or **Add product** to replace a slot. Each of Men, Women, Girls and Boys has five slots. **Publish product** updates the live rack without another Git push; **Hide** removes the chosen hanger from the public rack. Unchanged slots continue to show the built-in demo pieces. Use **Everyday collection** to add any number of products with a photo, category, color, price, sizes and display order. Publishing the first everyday product replaces the six illustrated samples; hidden products stay editable in the studio.
 
 The editor accepts a separate front, left and right image. A transparent front PNG or WebP is required for a new hanging piece. It converts images to WebP on a 1200 × 1600 canvas without cropping and creates a smaller transparent rack thumbnail from the front. The optional side views appear only if supplied. Conversion preserves existing transparency; it does not remove a photographic background. The guide inside `/admin` describes size and format requirements. Uploaded files are public catalog assets; do not upload private photos. The storefront still has no checkout or customer account system.

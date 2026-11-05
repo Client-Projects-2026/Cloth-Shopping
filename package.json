@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "format:admin": "prettier --write src/admin src/catalog.tsx src/lib/supabase.ts src/main.tsx",
-    "format:check": "prettier --check src/admin src/catalog.tsx src/lib/supabase.ts src/main.tsx",
+    "format:check": "prettier --check src/admin src/catalog.tsx src/everydayCatalog.ts src/products.ts src/App.tsx src/lib/supabase.ts src/main.tsx src/stock.ts src/components/ClothingRack.tsx src/components/FamilyBuilder.tsx src/components/EverydayCollection.tsx scripts/admin-browser-check.mjs scripts/boutique-browser-check.mjs",
     "test:shop": "node scripts/boutique-browser-check.mjs",
     "test:admin": "node scripts/admin-browser-check.mjs",
     "test:routes": "node scripts/production-route-check.mjs"
